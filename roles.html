@@ -11,6 +11,9 @@
 <meta property="og:url" content="https://seymourspeakers.ca/roles.html"/>
 <meta property="og:image" content="https://seymourspeakers.ca/images/logo.png"/>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
 tailwind.config = {
@@ -21,51 +24,136 @@ tailwind.config = {
         'ss-dark-blue': '#0b1c2b',
         'ss-gold': '#eec15c',
         'ss-gold-dark': '#d6ad4f',
+        'ss-cream': '#faf8f3',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+        display: ['Playfair Display', 'Georgia', 'serif'],
       }
     }
   }
 }
 </script>
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-body { font-family: "Inter", sans-serif; color: #333; }
-.role-card { transition: transform 0.2s ease-in-out; }
-.role-card:hover { transform: translateY(-5px); }
+body { font-family: "DM Sans", sans-serif; color: #333; }
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-fade-in {
+  opacity: 0;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Role cards ── */
+.role-card {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+}
+.role-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(21, 39, 59, 0.12);
+  border-color: #eec15c;
+}
+.role-card svg {
+  transition: transform 0.3s ease;
+}
+.role-card:hover svg {
+  transform: scale(1.12);
+}
+
+/* ── Buttons ── */
+.btn-glow {
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+.btn-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(238, 193, 92, 0.4);
+}
+.btn-glow:active { transform: translateY(0); }
+
+/* ── Mobile menu ── */
+.mobile-menu-enter {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+.mobile-menu-enter.open {
+  max-height: 200px;
+  opacity: 1;
+}
+
+/* ── Footer links ── */
+.footer-link { position: relative; }
+.footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: #eec15c;
+  transition: width 0.3s ease;
+}
+.footer-link:hover::after { width: 100%; }
 </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
 
 <!-- BEGIN: Header -->
-<header class="bg-white py-4 px-6 shadow-sm sticky top-0 z-50">
+<header class="bg-white/95 backdrop-blur-sm py-4 px-6 shadow-sm sticky top-0 z-50" style="animation: slideDown 0.5s ease forwards;">
 <div class="max-w-6xl mx-auto flex items-center justify-between">
-  <a href="index.html" class="flex items-center space-x-3">
-    <img alt="Seymour Speakers Logo" class="h-10 w-10 rounded-full border border-gray-300" src="images/logo.png"/>
+  <a href="index.html" class="flex items-center space-x-3 group">
+    <img alt="Toastmasters International" class="h-10 transition-opacity duration-300 group-hover:opacity-80" src="images/logo-globe.png"/>
     <span class="font-bold text-lg tracking-tight text-gray-800">Seymour Speakers</span>
   </a>
   <div class="flex items-center space-x-4">
-    <nav class="hidden md:flex space-x-6 text-sm font-bold text-gray-700">
-      <a class="hover:text-blue-900 transition-colors" href="index.html#about">About</a>
-      <a class="hover:text-blue-900 transition-colors" href="first-meeting.html">First Meeting</a>
-      <a class="text-blue-900 underline underline-offset-4 decoration-2" href="roles.html">Roles</a>
+    <nav class="hidden md:flex space-x-6 text-sm font-semibold text-gray-600">
+      <a class="hover:text-ss-blue transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-ss-gold after:transition-all after:duration-300 hover:after:w-full" href="index.html#about">About</a>
+      <a class="hover:text-ss-blue transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-ss-gold after:transition-all after:duration-300 hover:after:w-full" href="first-meeting.html">First Meeting</a>
+      <a class="text-ss-blue relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-ss-gold" href="roles.html">Roles</a>
     </nav>
-    <a class="bg-ss-gold hover:bg-ss-gold-dark text-gray-900 font-semibold py-2 px-6 rounded-full text-sm transition-colors shadow-sm" href="first-meeting.html">
+    <a class="btn-glow bg-ss-gold hover:bg-ss-gold-dark text-gray-900 font-semibold py-2 px-6 rounded-full text-sm shadow-sm" href="first-meeting.html">
       Join Us!
     </a>
-    <button class="md:hidden text-gray-700 hover:text-gray-900 focus:outline-none" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+    <button class="md:hidden text-gray-700 hover:text-gray-900 focus:outline-none transition-colors" onclick="toggleMobileMenu()">
       <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
       </svg>
     </button>
   </div>
 </div>
-<div id="mobile-menu" class="hidden md:hidden mt-4 pb-2 border-t border-gray-100 pt-4">
-  <nav class="flex flex-col space-y-3 text-sm font-bold text-gray-700">
-    <a class="hover:text-blue-900 transition-colors" href="index.html#about">About</a>
-    <a class="hover:text-blue-900 transition-colors" href="first-meeting.html">First Meeting</a>
-    <a class="text-blue-900" href="roles.html">Roles</a>
+<div id="mobile-menu" class="mobile-menu-enter md:hidden mt-4 pb-2 border-t border-gray-100 pt-4">
+  <nav class="flex flex-col space-y-3 text-sm font-semibold text-gray-600">
+    <a class="hover:text-ss-blue transition-colors py-1" href="index.html#about">About</a>
+    <a class="hover:text-ss-blue transition-colors py-1" href="first-meeting.html">First Meeting</a>
+    <a class="text-ss-blue py-1" href="roles.html">Roles</a>
   </nav>
 </div>
 </header>
@@ -74,80 +162,100 @@ body { font-family: "Inter", sans-serif; color: #333; }
 <main class="flex-grow">
 
 <!-- BEGIN: Hero Section -->
-<section class="bg-[#f4f5f7] pt-16 pb-20 px-6 text-center flex flex-col items-center">
-  <img alt="Toastmaster Hats Illustration" class="max-w-2xl w-full mb-12" src="images/hero-hats.png"/>
+<section class="bg-ss-cream pt-16 pb-20 px-6 text-center flex flex-col items-center">
+  <div class="max-w-2xl w-full mb-12 animate-fade-up" style="animation-delay: 0.1s;">
+    <img alt="Toastmaster Hats Illustration" class="w-full rounded-2xl" src="images/hero-hats.png"/>
+  </div>
   <div class="max-w-4xl mx-auto">
-    <h1 class="text-4xl md:text-5xl font-bold text-ss-blue mb-6">A Toastmaster Wears Many Hats</h1>
-    <p class="text-gray-600 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
-      The success of a club meeting depends on the participants. At each meeting, there are many roles to fill and they play an important part in making the club experience enjoyable. Below is a list of meeting roles.
+    <p class="text-ss-gold text-sm font-semibold tracking-[0.2em] uppercase mb-6 animate-fade-in" style="animation-delay: 0.2s;">Meeting Roles</p>
+    <h1 class="font-display text-4xl md:text-5xl font-bold text-ss-blue mb-6 animate-fade-up" style="animation-delay: 0.3s;">A Toastmaster Wears Many Hats</h1>
+    <p class="text-gray-500 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto animate-fade-up" style="animation-delay: 0.4s;">
+      The success of a club meeting depends on the participants. At each meeting, there are many roles to fill and they play an important part in making the club experience enjoyable.
     </p>
   </div>
 </section>
 <!-- END: Hero Section -->
 
 <!-- BEGIN: Roles Grid -->
-<section class="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto bg-white">
+<section class="py-20 md:py-24 px-6 md:px-12 max-w-7xl mx-auto bg-white">
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-  <!-- Toastmaster -->
-  <div class="role-card border-2 border-ss-gold rounded-lg p-8 text-center flex flex-col items-center bg-white shadow-sm hover:shadow-md">
-    <img alt="Toastmaster Icon" class="h-16 w-16 mb-6" src="images/role-toastmaster.png"/>
+  <!-- Toastmaster — podium/megaphone -->
+  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.05s;">
+    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"/></svg>
+    </div>
     <h3 class="text-xl font-bold text-ss-blue mb-3">Toastmaster</h3>
-    <p class="text-sm text-gray-600">The Toastmaster is a meeting's director and host.</p>
+    <p class="text-sm text-gray-500 leading-relaxed">The Toastmaster is a meeting's director and host.</p>
   </div>
-  <!-- Grammarian -->
-  <div class="role-card border-2 border-ss-gold rounded-lg p-8 text-center flex flex-col items-center bg-white shadow-sm hover:shadow-md">
-    <img alt="Grammarian Icon" class="h-16 w-16 mb-6" src="images/role-grammarian.png"/>
+  <!-- Grammarian — book -->
+  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.1s;">
+    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>
+    </div>
     <h3 class="text-xl font-bold text-ss-blue mb-3">Grammarian</h3>
-    <p class="text-sm text-gray-600">The Grammarian helps club members improve their grammar and vocabulary.</p>
+    <p class="text-sm text-gray-500 leading-relaxed">The Grammarian helps club members improve their grammar and vocabulary.</p>
   </div>
-  <!-- Timer -->
-  <div class="role-card border-2 border-ss-gold rounded-lg p-8 text-center flex flex-col items-center bg-white shadow-sm hover:shadow-md">
-    <img alt="Timer Icon" class="h-16 w-16 mb-6" src="images/role-timer.png"/>
+  <!-- Timer — clock -->
+  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.15s;">
+    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+    </div>
     <h3 class="text-xl font-bold text-ss-blue mb-3">Timer</h3>
-    <p class="text-sm text-gray-600">Taking on this role improves time management skills.</p>
+    <p class="text-sm text-gray-500 leading-relaxed">Taking on this role improves time management skills.</p>
   </div>
-  <!-- Topicsmaster -->
-  <div class="role-card border-2 border-ss-gold rounded-lg p-8 text-center flex flex-col items-center bg-white shadow-sm hover:shadow-md">
-    <img alt="Topicsmaster Icon" class="h-16 w-16 mb-6" src="images/role-topicsmaster.png"/>
+  <!-- Topicsmaster — lightning bolt (spontaneous) -->
+  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.2s;">
+    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/></svg>
+    </div>
     <h3 class="text-xl font-bold text-ss-blue mb-3">Topicsmaster</h3>
-    <p class="text-sm text-gray-600">Taking on this role improves organization skills, time management and facilitation skills.</p>
+    <p class="text-sm text-gray-500 leading-relaxed">Taking on this role improves organization skills, time management and facilitation skills.</p>
   </div>
-  <!-- Evaluator -->
-  <div class="role-card border-2 border-ss-gold rounded-lg p-8 text-center flex flex-col items-center bg-white shadow-sm hover:shadow-md">
-    <img alt="Evaluator Icon" class="h-16 w-16 mb-6" src="images/role-evaluator.png"/>
+  <!-- Evaluator — clipboard check -->
+  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.25s;">
+    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15a2.25 2.25 0 0 1 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"/></svg>
+    </div>
     <h3 class="text-xl font-bold text-ss-blue mb-3">Evaluator</h3>
-    <p class="text-sm text-gray-600">Every speaker is a role model and club members learn from one another's speeches.</p>
+    <p class="text-sm text-gray-500 leading-relaxed">Every speaker is a role model and club members learn from one another's speeches.</p>
   </div>
-  <!-- Meeting Speaker -->
-  <div class="role-card border-2 border-ss-gold rounded-lg p-8 text-center flex flex-col items-center bg-white shadow-sm hover:shadow-md">
-    <img alt="Meeting Speaker Icon" class="h-16 w-16 mb-6" src="images/role-speaker.png"/>
+  <!-- Meeting Speaker — microphone -->
+  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.3s;">
+    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"/></svg>
+    </div>
     <h3 class="text-xl font-bold text-ss-blue mb-3">Meeting Speaker</h3>
-    <p class="text-sm text-gray-600">Every speaker is a role model and club members learn from one another's speeches.</p>
+    <p class="text-sm text-gray-500 leading-relaxed">Every speaker is a role model and club members learn from one another's speeches.</p>
   </div>
-  <!-- General Evaluator -->
-  <div class="role-card border-2 border-ss-gold rounded-lg p-8 text-center flex flex-col items-center bg-white shadow-sm hover:shadow-md">
-    <img alt="General Evaluator Icon" class="h-16 w-16 mb-6" src="images/role-general-evaluator.png"/>
+  <!-- General Evaluator — eye (oversight) -->
+  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.35s;">
+    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+    </div>
     <h3 class="text-xl font-bold text-ss-blue mb-3">General Evaluator</h3>
-    <p class="text-sm text-gray-600">The General Evaluator evaluates everything that takes place during the club meeting.</p>
+    <p class="text-sm text-gray-500 leading-relaxed">The General Evaluator evaluates everything that takes place during the club meeting.</p>
   </div>
-  <!-- Table Topics Speaker -->
-  <div class="role-card border-2 border-ss-gold rounded-lg p-8 text-center flex flex-col items-center bg-white shadow-sm hover:shadow-md">
-    <img alt="Table Topics Speaker Icon" class="h-16 w-16 mb-6" src="images/role-table-topics.png"/>
+  <!-- Table Topics Speaker — chat bubbles -->
+  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.4s;">
+    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/></svg>
+    </div>
     <h3 class="text-xl font-bold text-ss-blue mb-3">Table Topics Speaker</h3>
-    <p class="text-sm text-gray-600">Table Topics helps members develop their impromptu speaking skills.</p>
+    <p class="text-sm text-gray-500 leading-relaxed">Table Topics helps members develop their impromptu speaking skills.</p>
   </div>
 </div>
 </section>
 <!-- END: Roles Grid -->
 
 <!-- BEGIN: CTA Section -->
-<section class="relative py-24 px-6 text-center text-white min-h-[400px] flex flex-col items-center justify-center" style="background: linear-gradient(rgba(21, 39, 59, 0.85), rgba(21, 39, 59, 0.9)), url('images/cta-bg.jpg') center/cover no-repeat;">
-<div class="max-w-3xl mx-auto flex flex-col items-center">
-  <h2 class="text-4xl md:text-5xl font-bold mb-6">Ready to try a meeting?</h2>
-  <p class="text-lg md:text-xl text-gray-200 mb-10 leading-relaxed max-w-2xl">
+<section class="relative py-28 px-6 text-center text-white min-h-[400px] flex flex-col items-center justify-center overflow-hidden" style="background: linear-gradient(rgba(21, 39, 59, 0.88), rgba(11, 28, 43, 0.92)), url('images/cta-bg.jpg') center/cover no-repeat;">
+<div class="absolute inset-0 opacity-[0.03]" style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23eec15c' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E&quot;);"></div>
+<div class="max-w-3xl mx-auto flex flex-col items-center relative z-10 reveal">
+  <h2 class="font-display text-4xl md:text-5xl font-bold mb-6">Ready to try a meeting?</h2>
+  <p class="text-lg md:text-xl text-gray-200/80 mb-10 leading-relaxed max-w-2xl">
     We can't wait to meet you! Whether you join up online or in person, please RSVP so we can ensure you have the correct link or directions to our next meeting.
   </p>
-  <a class="bg-ss-gold text-ss-blue font-bold px-8 py-4 rounded uppercase tracking-wide hover:bg-ss-gold-dark transition-colors shadow-lg" href="mailto:info@seymourspeakers.com">
+  <a class="btn-glow bg-ss-gold text-ss-blue font-bold px-10 py-4 rounded-md uppercase tracking-wide hover:bg-ss-gold-dark transition-colors shadow-lg" href="mailto:info@seymourspeakers.com">
     RSVP TO OUR NEXT MEETING
   </a>
 </div>
@@ -160,8 +268,8 @@ body { font-family: "Inter", sans-serif; color: #333; }
 <footer class="bg-ss-blue text-gray-300 pt-16 pb-6">
 <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
   <div class="flex flex-col items-start">
-    <div class="flex items-center space-x-3 mb-6 p-2 rounded w-fit">
-      <img alt="Seymour Speakers Logo" class="h-10 w-10 rounded-full border border-gray-300" src="images/logo-footer.png"/>
+    <div class="flex items-center space-x-3 mb-6">
+      <img alt="Toastmasters International" class="h-10 brightness-0 invert opacity-90" src="images/logo-globe.png"/>
       <span class="font-bold text-lg tracking-tight text-white">Seymour<br/>Speakers</span>
     </div>
     <p class="text-sm font-semibold text-white mb-1">Meeting Details:</p>
@@ -174,22 +282,17 @@ body { font-family: "Inter", sans-serif; color: #333; }
   <div>
     <h4 class="text-white font-bold mb-6 text-lg">Quick Links</h4>
     <ul class="space-y-3 text-sm text-gray-400">
-      <li><a class="hover:text-white transition-colors" href="index.html#about">About Us</a></li>
-      <li><a class="hover:text-white transition-colors" href="first-meeting.html">First Meeting Guide</a></li>
-      <li><a class="hover:text-white transition-colors" href="roles.html">Meeting Roles</a></li>
-      <li><a class="hover:text-white transition-colors" href="mailto:info@seymourspeakers.com">Contact</a></li>
+      <li><a class="footer-link hover:text-white transition-colors" href="index.html#about">About Us</a></li>
+      <li><a class="footer-link hover:text-white transition-colors" href="first-meeting.html">First Meeting Guide</a></li>
+      <li><a class="footer-link hover:text-white transition-colors" href="roles.html">Meeting Roles</a></li>
+      <li><a class="footer-link hover:text-white transition-colors" href="mailto:info@seymourspeakers.com">Contact</a></li>
     </ul>
   </div>
   <div>
     <h4 class="text-white font-bold mb-6 text-lg">Contact Us</h4>
     <div class="flex items-center space-x-2 text-sm text-gray-400 mb-6">
       <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      <a class="hover:text-white transition-colors" href="mailto:info@seymourspeakers.com">info@seymourspeakers.com</a>
-    </div>
-    <div class="flex space-x-4">
-      <a class="text-gray-400 hover:text-white transition-colors" href="https://www.facebook.com/seymourspeakerstoastmasters" target="_blank" rel="noopener">
-        <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path></svg>
-      </a>
+      <a class="footer-link hover:text-white transition-colors" href="mailto:info@seymourspeakers.com">info@seymourspeakers.com</a>
     </div>
   </div>
 </div>
@@ -199,5 +302,20 @@ body { font-family: "Inter", sans-serif; color: #333; }
 </footer>
 <!-- END: Footer -->
 
+<script>
+function toggleMobileMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>

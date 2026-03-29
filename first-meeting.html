@@ -11,6 +11,9 @@
 <meta property="og:url" content="https://seymourspeakers.ca/first-meeting.html"/>
 <meta property="og:image" content="https://seymourspeakers.ca/images/logo.png"/>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
 tailwind.config = {
@@ -21,59 +24,167 @@ tailwind.config = {
         'ss-dark-blue': '#0b1c2b',
         'ss-gold': '#eec15c',
         'ss-gold-dark': '#d6ad4f',
+        'ss-cream': '#faf8f3',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+        display: ['Playfair Display', 'Georgia', 'serif'],
       }
     }
   }
 }
 </script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-body { font-family: 'Inter', sans-serif; color: #1f2937; }
+body { font-family: 'DM Sans', sans-serif; color: #1f2937; }
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-fade-in {
+  opacity: 0;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Accordion ── */
 .accordion-content {
-  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              padding 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.3s ease;
   max-height: 0;
   overflow: hidden;
+  opacity: 0;
 }
 .accordion-content.open {
   max-height: 500px;
   padding-top: 1rem;
   padding-bottom: 1.5rem;
+  opacity: 1;
 }
+.accordion-item {
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.accordion-item:hover {
+  box-shadow: 0 4px 20px rgba(21, 39, 59, 0.08);
+}
+
+/* ── Buttons ── */
+.btn-glow {
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+.btn-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(238, 193, 92, 0.4);
+}
+.btn-glow:active { transform: translateY(0); }
+
+/* ── Mobile menu ── */
+.mobile-menu-enter {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+.mobile-menu-enter.open {
+  max-height: 200px;
+  opacity: 1;
+}
+
+/* ── Footer links ── */
+.footer-link { position: relative; }
+.footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: #eec15c;
+  transition: width 0.3s ease;
+}
+.footer-link:hover::after { width: 100%; }
+
+/* ── Agenda markers ── */
+.agenda-item {
+  position: relative;
+  padding-left: 2rem;
+}
+.agenda-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #eec15c;
+  box-shadow: 0 0 0 3px rgba(238, 193, 92, 0.2);
+}
+.agenda-item::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1.5rem;
+  width: 2px;
+  height: calc(100% + 0.5rem);
+  background: linear-gradient(to bottom, #eec15c, transparent);
+}
+.agenda-item:last-child::after { display: none; }
 </style>
 </head>
 <body class="bg-white min-h-screen flex flex-col">
 
 <!-- BEGIN: Header -->
-<header class="bg-white py-4 px-6 shadow-sm sticky top-0 z-50">
+<header class="bg-white/95 backdrop-blur-sm py-4 px-6 shadow-sm sticky top-0 z-50" style="animation: slideDown 0.5s ease forwards;">
 <div class="max-w-6xl mx-auto flex items-center justify-between">
-  <a href="index.html" class="flex items-center space-x-3">
-    <img alt="Seymour Speakers Logo" class="h-10 w-10 rounded-full border border-gray-300" src="images/logo.png"/>
+  <a href="index.html" class="flex items-center space-x-3 group">
+    <img alt="Toastmasters International" class="h-10 transition-opacity duration-300 group-hover:opacity-80" src="images/logo-globe.png"/>
     <span class="font-bold text-lg tracking-tight text-gray-800">Seymour Speakers</span>
   </a>
   <div class="flex items-center space-x-4">
-    <nav class="hidden md:flex space-x-6 text-sm font-bold text-gray-700">
-      <a class="hover:text-blue-900 transition-colors" href="index.html#about">About</a>
-      <a class="text-blue-900 underline underline-offset-4 decoration-2" href="first-meeting.html">First Meeting</a>
-      <a class="hover:text-blue-900 transition-colors" href="roles.html">Roles</a>
+    <nav class="hidden md:flex space-x-6 text-sm font-semibold text-gray-600">
+      <a class="hover:text-ss-blue transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-ss-gold after:transition-all after:duration-300 hover:after:w-full" href="index.html#about">About</a>
+      <a class="text-ss-blue relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-ss-gold" href="first-meeting.html">First Meeting</a>
+      <a class="hover:text-ss-blue transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-ss-gold after:transition-all after:duration-300 hover:after:w-full" href="roles.html">Roles</a>
     </nav>
-    <a class="bg-ss-gold hover:bg-ss-gold-dark text-gray-900 font-semibold py-2 px-6 rounded-full text-sm transition-colors shadow-sm" href="first-meeting.html">
+    <a class="btn-glow bg-ss-gold hover:bg-ss-gold-dark text-gray-900 font-semibold py-2 px-6 rounded-full text-sm shadow-sm" href="first-meeting.html">
       Join Us!
     </a>
-    <button class="md:hidden text-gray-700 hover:text-gray-900 focus:outline-none" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+    <button class="md:hidden text-gray-700 hover:text-gray-900 focus:outline-none transition-colors" onclick="toggleMobileMenu()">
       <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
       </svg>
     </button>
   </div>
 </div>
-<div id="mobile-menu" class="hidden md:hidden mt-4 pb-2 border-t border-gray-100 pt-4">
-  <nav class="flex flex-col space-y-3 text-sm font-bold text-gray-700">
-    <a class="hover:text-blue-900 transition-colors" href="index.html#about">About</a>
-    <a class="text-blue-900" href="first-meeting.html">First Meeting</a>
-    <a class="hover:text-blue-900 transition-colors" href="roles.html">Roles</a>
+<div id="mobile-menu" class="mobile-menu-enter md:hidden mt-4 pb-2 border-t border-gray-100 pt-4">
+  <nav class="flex flex-col space-y-3 text-sm font-semibold text-gray-600">
+    <a class="hover:text-ss-blue transition-colors py-1" href="index.html#about">About</a>
+    <a class="text-ss-blue py-1" href="first-meeting.html">First Meeting</a>
+    <a class="hover:text-ss-blue transition-colors py-1" href="roles.html">Roles</a>
   </nav>
 </div>
 </header>
@@ -82,12 +193,13 @@ body { font-family: 'Inter', sans-serif; color: #1f2937; }
 <main class="flex-grow">
 
 <!-- BEGIN: Hero Section -->
-<section class="bg-[#f3f4f6] pt-20 pb-16 px-4 text-center">
+<section class="bg-ss-cream pt-24 pb-20 px-4 text-center">
 <div class="max-w-3xl mx-auto">
-  <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+  <p class="text-ss-gold text-sm font-semibold tracking-[0.2em] uppercase mb-6 animate-fade-in" style="animation-delay: 0.1s;">Welcome to Seymour Speakers</p>
+  <h1 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight animate-fade-up" style="animation-delay: 0.2s;">
     Your First Visit to<br/>Seymour Speakers
   </h1>
-  <p class="text-lg text-gray-600 leading-relaxed mx-auto max-w-2xl">
+  <p class="text-lg text-gray-500 leading-relaxed mx-auto max-w-2xl animate-fade-up" style="animation-delay: 0.35s;">
     What to expect, your FAQs answered, and everything you need to know before visiting Seymour Speakers for the first time.
   </p>
 </div>
@@ -95,14 +207,15 @@ body { font-family: 'Inter', sans-serif; color: #1f2937; }
 <!-- END: Hero Section -->
 
 <!-- BEGIN: FAQ Section -->
-<section class="max-w-3xl mx-auto px-4 py-16">
-<h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Questions You Might be Wondering</h2>
-<div class="space-y-2">
+<section class="max-w-3xl mx-auto px-4 py-20">
+<h2 class="text-3xl font-bold text-center text-gray-900 mb-4 reveal">Questions You Might be Wondering</h2>
+<div class="w-12 h-[3px] bg-ss-gold mx-auto rounded-full mb-10 reveal" style="transition-delay: 0.1s;"></div>
+<div class="space-y-3 reveal" style="transition-delay: 0.2s;">
   <!-- Accordion Item 1 -->
-  <div class="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
-    <button class="w-full px-6 py-4 flex justify-between items-center bg-white hover:bg-gray-50 focus:outline-none transition-colors" onclick="toggleAccordion(1)">
-      <span class="font-semibold text-gray-900 text-left">What is Toastmasters?</span>
-      <svg class="h-5 w-5 text-gray-500 transform transition-transform duration-200" fill="none" id="icon-1" stroke="currentColor" viewBox="0 0 24 24">
+  <div class="accordion-item border border-gray-200 rounded-xl overflow-hidden bg-white">
+    <button class="w-full px-6 py-5 flex justify-between items-center bg-white hover:bg-gray-50/50 focus:outline-none transition-colors" onclick="toggleAccordion(1)">
+      <span class="font-semibold text-gray-900 text-left text-[17px]">What is Toastmasters?</span>
+      <svg class="h-5 w-5 text-gray-400 transform transition-transform duration-300" fill="none" id="icon-1" stroke="currentColor" viewBox="0 0 24 24">
         <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
       </svg>
     </button>
@@ -111,10 +224,10 @@ body { font-family: 'Inter', sans-serif; color: #1f2937; }
     </div>
   </div>
   <!-- Accordion Item 2 -->
-  <div class="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
-    <button class="w-full px-6 py-4 flex justify-between items-center bg-white hover:bg-gray-50 focus:outline-none transition-colors" onclick="toggleAccordion(2)">
-      <span class="font-semibold text-gray-900 text-left">Am I welcome to visit?</span>
-      <svg class="h-5 w-5 text-gray-500 transform transition-transform duration-200" fill="none" id="icon-2" stroke="currentColor" viewBox="0 0 24 24">
+  <div class="accordion-item border border-gray-200 rounded-xl overflow-hidden bg-white">
+    <button class="w-full px-6 py-5 flex justify-between items-center bg-white hover:bg-gray-50/50 focus:outline-none transition-colors" onclick="toggleAccordion(2)">
+      <span class="font-semibold text-gray-900 text-left text-[17px]">Am I welcome to visit?</span>
+      <svg class="h-5 w-5 text-gray-400 transform transition-transform duration-300" fill="none" id="icon-2" stroke="currentColor" viewBox="0 0 24 24">
         <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
       </svg>
     </button>
@@ -122,19 +235,19 @@ body { font-family: 'Inter', sans-serif; color: #1f2937; }
       <p>Our Toastmasters Club is open to anyone who wants to improve their speaking and presentation skills. You are welcome at any of our meetings as a guest! Please contact us in advance so we can anticipate your arrival. After 3 "guest appearances", we will ask you to join and pay club membership dues. That way you will be able to fully participate in every meeting.</p>
     </div>
   </div>
-  <!-- Accordion Item 3 -->
-  <div class="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm shadow-md">
-    <button class="w-full px-6 py-4 flex justify-between items-center bg-ss-blue text-white focus:outline-none transition-colors" onclick="toggleAccordion(3)">
-      <span class="font-semibold text-left">What happens at a meeting?</span>
-      <svg class="h-5 w-5 text-white transform rotate-180 transition-transform duration-200" fill="none" id="icon-3" stroke="currentColor" viewBox="0 0 24 24">
+  <!-- Accordion Item 3 (Open by default) -->
+  <div class="accordion-item border border-ss-gold/40 rounded-xl overflow-hidden bg-white shadow-md shadow-ss-gold/5">
+    <button class="w-full px-6 py-5 flex justify-between items-center bg-ss-blue text-white focus:outline-none transition-colors" onclick="toggleAccordion(3)">
+      <span class="font-semibold text-left text-[17px]">What happens at a meeting?</span>
+      <svg class="h-5 w-5 text-white transform rotate-180 transition-transform duration-300" fill="none" id="icon-3" stroke="currentColor" viewBox="0 0 24 24">
         <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
       </svg>
     </button>
     <div class="accordion-content open px-6 bg-white text-gray-700 leading-relaxed" id="content-3">
       <div class="space-y-4">
-        <p><strong>Prepared Speeches</strong> &mdash; As a member, you'll prepare, rehearse, and then deliver presentations in front of your fellow members.</p>
-        <p><strong>Speech evaluations</strong> &mdash; In every club presentation, you will receive helpful and supportive evaluations from your peers.</p>
-        <p><strong>Impromptu speaking</strong> &mdash; This is where you practice speaking "off the cuff" for one or two minutes by answering general topics of interest (table topics).</p>
+        <p><strong class="text-ss-blue">Prepared Speeches</strong> &mdash; As a member, you'll prepare, rehearse, and then deliver presentations in front of your fellow members.</p>
+        <p><strong class="text-ss-blue">Speech evaluations</strong> &mdash; In every club presentation, you will receive helpful and supportive evaluations from your peers.</p>
+        <p><strong class="text-ss-blue">Impromptu speaking</strong> &mdash; This is where you practice speaking "off the cuff" for one or two minutes by answering general topics of interest (table topics).</p>
       </div>
     </div>
   </div>
@@ -143,45 +256,52 @@ body { font-family: 'Inter', sans-serif; color: #1f2937; }
 <!-- END: FAQ Section -->
 
 <!-- BEGIN: What to Expect Section -->
-<section class="bg-[#f3f4f6] py-16 px-4">
+<section class="bg-ss-cream py-20 px-4">
 <div class="max-w-3xl mx-auto">
-  <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">What to Expect at Your First Meeting</h2>
-  <div class="bg-white rounded-lg shadow-md p-8 space-y-4 text-gray-700 leading-relaxed text-lg">
+  <h2 class="text-3xl font-bold text-center text-gray-900 mb-4 reveal">What to Expect at Your First Meeting</h2>
+  <div class="w-12 h-[3px] bg-ss-gold mx-auto rounded-full mb-10 reveal" style="transition-delay: 0.1s;"></div>
+  <div class="bg-white rounded-2xl shadow-lg shadow-ss-blue/5 p-8 md:p-10 space-y-5 text-gray-600 leading-relaxed text-lg border border-gray-100 reveal" style="transition-delay: 0.2s;">
     <p>Seymour Speakers meetings are high energy, organized and very punctual. The meeting is 1 hour and 20 minutes of structured communication rolled into a lot of fun! There is a prepared agenda created by the Chair person.</p>
     <p>You can expect the meeting to be opened by our Sergeant at Arms at 7:30 am (PT) on the dot. The Chair person will then introduce the Timer, Grammarian and Toastmaster. The first half of the meeting includes a toast by our Toastmaster, along with two prepared speeches by our members and two encouraging and effective evaluations.</p>
-    <p>After this, there will be a 5-minute break to network and meet members.</p>
+    <div class="flex items-center gap-4 py-2">
+      <div class="flex-shrink-0 w-12 h-[2px] bg-ss-gold/40 rounded"></div>
+      <p class="text-ss-blue font-medium italic">A 5-minute break to network and meet members.</p>
+      <div class="flex-shrink-0 w-12 h-[2px] bg-ss-gold/40 rounded"></div>
+    </div>
     <p>The second half includes our fun, spontaneous and inspiring impromptu speaking (Table Topics)! We then close out the meeting with reports from our Timer and Grammarian, along with announcements and finally our General Evaluator. Every role in our meeting is evaluated to ensure growth and development for all members. The meeting is adjourned at 8:50 am (PT)!</p>
-    <p class="font-semibold text-ss-blue">Get ready to have an extra skip in your step knowing that you have accomplished all of this by 9 am!</p>
+    <p class="font-semibold text-ss-blue text-xl pt-2">Get ready to have an extra skip in your step knowing that you have accomplished all of this by 9 am!</p>
   </div>
 </div>
 </section>
 <!-- END: What to Expect Section -->
 
 <!-- BEGIN: Agenda Section -->
-<section class="max-w-3xl mx-auto px-4 py-16">
-<h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Typical 80-Minute Meeting Agenda</h2>
-<div class="flex justify-center">
-  <ul class="space-y-3 text-lg text-gray-700 list-disc inline-block text-left pl-6 marker:text-gray-900">
-    <li>Sergeant at Arms starts the meeting</li>
-    <li>Toastmaster takes over</li>
-    <li>Prepared Speeches (2-3)</li>
-    <li>Speech Evaluations</li>
-    <li>Impromptu Speaking (Table Topics)</li>
-    <li>Reports (Timer, Grammarian)</li>
-    <li>Meeting Adjourns</li>
-  </ul>
+<section class="max-w-3xl mx-auto px-4 py-20">
+<h2 class="text-3xl font-bold text-center text-gray-900 mb-4 reveal">Typical 80-Minute Meeting Agenda</h2>
+<div class="w-12 h-[3px] bg-ss-gold mx-auto rounded-full mb-12 reveal" style="transition-delay: 0.1s;"></div>
+<div class="max-w-md mx-auto reveal" style="transition-delay: 0.2s;">
+  <div class="space-y-5">
+    <div class="agenda-item"><p class="text-lg text-gray-700 font-medium">Sergeant at Arms starts the meeting</p></div>
+    <div class="agenda-item"><p class="text-lg text-gray-700 font-medium">Toastmaster takes over</p></div>
+    <div class="agenda-item"><p class="text-lg text-gray-700 font-medium">Prepared Speeches (2-3)</p></div>
+    <div class="agenda-item"><p class="text-lg text-gray-700 font-medium">Speech Evaluations</p></div>
+    <div class="agenda-item"><p class="text-lg text-gray-700 font-medium">Impromptu Speaking (Table Topics)</p></div>
+    <div class="agenda-item"><p class="text-lg text-gray-700 font-medium">Reports (Timer, Grammarian)</p></div>
+    <div class="agenda-item"><p class="text-lg text-gray-700 font-medium">Meeting Adjourns</p></div>
+  </div>
 </div>
 </section>
 <!-- END: Agenda Section -->
 
 <!-- BEGIN: CTA Section -->
-<section class="bg-gradient-to-b from-ss-blue to-[#28587b] py-20 px-4 text-center text-white">
-<div class="max-w-2xl mx-auto">
-  <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to try a meeting?</h2>
-  <p class="text-lg text-blue-100 mb-8 max-w-xl mx-auto">
+<section class="bg-gradient-to-b from-ss-blue to-ss-dark-blue py-24 px-4 text-center text-white relative overflow-hidden">
+<div class="absolute inset-0 opacity-[0.03]" style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23eec15c' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E&quot;);"></div>
+<div class="max-w-2xl mx-auto relative z-10 reveal">
+  <h2 class="font-display text-3xl md:text-4xl font-bold mb-5">Ready to try a meeting?</h2>
+  <p class="text-lg text-blue-100/80 mb-10 max-w-xl mx-auto leading-relaxed">
     We can't wait to meet you! Whether you join up online or in person, please RSVP so we can ensure you have the correct link or directions to our next meeting.
   </p>
-  <a class="inline-block bg-ss-gold text-ss-blue font-bold py-3 px-8 rounded shadow-md hover:bg-ss-gold-dark transition-colors" href="mailto:info@seymourspeakers.com">
+  <a class="btn-glow inline-block bg-ss-gold text-ss-blue font-bold py-3.5 px-10 rounded-md shadow-md hover:bg-ss-gold-dark transition-colors" href="mailto:info@seymourspeakers.com">
     RSVP TO OUR NEXT MEETING
   </a>
 </div>
@@ -194,8 +314,8 @@ body { font-family: 'Inter', sans-serif; color: #1f2937; }
 <footer class="bg-ss-blue text-gray-300 pt-16 pb-6">
 <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
   <div class="flex flex-col items-start">
-    <div class="flex items-center space-x-3 mb-6 p-2 rounded w-fit">
-      <img alt="Seymour Speakers Logo" class="h-10 w-10 rounded-full border border-gray-300" src="images/logo-footer.png"/>
+    <div class="flex items-center space-x-3 mb-6">
+      <img alt="Toastmasters International" class="h-10 brightness-0 invert opacity-90" src="images/logo-globe.png"/>
       <span class="font-bold text-lg tracking-tight text-white">Seymour<br/>Speakers</span>
     </div>
     <p class="text-sm font-semibold text-white mb-1">Meeting Details:</p>
@@ -208,22 +328,17 @@ body { font-family: 'Inter', sans-serif; color: #1f2937; }
   <div>
     <h4 class="text-white font-bold mb-6 text-lg">Quick Links</h4>
     <ul class="space-y-3 text-sm text-gray-400">
-      <li><a class="hover:text-white transition-colors" href="index.html#about">About Us</a></li>
-      <li><a class="hover:text-white transition-colors" href="first-meeting.html">First Meeting Guide</a></li>
-      <li><a class="hover:text-white transition-colors" href="roles.html">Meeting Roles</a></li>
-      <li><a class="hover:text-white transition-colors" href="mailto:info@seymourspeakers.com">Contact</a></li>
+      <li><a class="footer-link hover:text-white transition-colors" href="index.html#about">About Us</a></li>
+      <li><a class="footer-link hover:text-white transition-colors" href="first-meeting.html">First Meeting Guide</a></li>
+      <li><a class="footer-link hover:text-white transition-colors" href="roles.html">Meeting Roles</a></li>
+      <li><a class="footer-link hover:text-white transition-colors" href="mailto:info@seymourspeakers.com">Contact</a></li>
     </ul>
   </div>
   <div>
     <h4 class="text-white font-bold mb-6 text-lg">Contact Us</h4>
     <div class="flex items-center space-x-2 text-sm text-gray-400 mb-6">
       <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      <a class="hover:text-white transition-colors" href="mailto:info@seymourspeakers.com">info@seymourspeakers.com</a>
-    </div>
-    <div class="flex space-x-4">
-      <a class="text-gray-400 hover:text-white transition-colors" href="https://www.facebook.com/seymourspeakerstoastmasters" target="_blank" rel="noopener">
-        <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path></svg>
-      </a>
+      <a class="footer-link hover:text-white transition-colors" href="mailto:info@seymourspeakers.com">info@seymourspeakers.com</a>
     </div>
   </div>
 </div>
@@ -234,36 +349,57 @@ body { font-family: 'Inter', sans-serif; color: #1f2937; }
 <!-- END: Footer -->
 
 <script>
+function toggleMobileMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+
 function toggleAccordion(id) {
   const content = document.getElementById(`content-${id}`);
   const icon = document.getElementById(`icon-${id}`);
   const button = content.previousElementSibling;
   const isOpen = content.classList.contains('open');
+  const parentItem = button.closest('.accordion-item');
 
   // Close all
   document.querySelectorAll('.accordion-content').forEach(el => {
     el.classList.remove('open');
     const siblingBtn = el.previousElementSibling;
+    const siblingItem = siblingBtn.closest('.accordion-item');
     siblingBtn.classList.remove('bg-ss-blue', 'text-white');
     siblingBtn.classList.add('bg-white');
     siblingBtn.querySelector('span').classList.remove('text-white');
     siblingBtn.querySelector('span').classList.add('text-gray-900');
+    siblingItem.classList.remove('border-ss-gold/40', 'shadow-md', 'shadow-ss-gold/5');
+    siblingItem.classList.add('border-gray-200');
     const siblingIcon = siblingBtn.querySelector('svg');
     siblingIcon.classList.remove('rotate-180', 'text-white');
-    siblingIcon.classList.add('text-gray-500');
+    siblingIcon.classList.add('text-gray-400');
   });
 
   // Toggle current
   if (!isOpen) {
     content.classList.add('open');
-    button.classList.remove('bg-white', 'hover:bg-gray-50');
+    button.classList.remove('bg-white', 'hover:bg-gray-50/50');
     button.classList.add('bg-ss-blue', 'text-white');
     button.querySelector('span').classList.remove('text-gray-900');
     button.querySelector('span').classList.add('text-white');
-    icon.classList.remove('text-gray-500');
+    parentItem.classList.remove('border-gray-200');
+    parentItem.classList.add('border-ss-gold/40', 'shadow-md', 'shadow-ss-gold/5');
+    icon.classList.remove('text-gray-400');
     icon.classList.add('rotate-180', 'text-white');
   }
 }
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
