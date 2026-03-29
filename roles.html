@@ -72,6 +72,7 @@ body { font-family: "DM Sans", sans-serif; color: #333; }
 
 /* ── Role cards ── */
 .role-card {
+  cursor: pointer;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.3s ease,
               border-color 0.3s ease;
@@ -86,6 +87,17 @@ body { font-family: "DM Sans", sans-serif; color: #333; }
 }
 .role-card:hover svg {
   transform: scale(1.12);
+}
+
+/* ── Role detail sections ── */
+.role-detail {
+  scroll-margin-top: 80px;
+}
+.role-detail-card {
+  transition: box-shadow 0.3s ease;
+}
+.role-detail-card:hover {
+  box-shadow: 0 8px 30px rgba(21, 39, 59, 0.08);
 }
 
 /* ── Buttons ── */
@@ -176,76 +188,218 @@ body { font-family: "DM Sans", sans-serif; color: #333; }
 </section>
 <!-- END: Hero Section -->
 
-<!-- BEGIN: Roles Grid -->
-<section class="py-20 md:py-24 px-6 md:px-12 max-w-7xl mx-auto bg-white">
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-  <!-- Toastmaster — podium/megaphone -->
-  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.05s;">
-    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
-      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"/></svg>
+<!-- BEGIN: Roles Grid (clickable overview) -->
+<section class="py-16 md:py-20 px-6 md:px-12 max-w-7xl mx-auto bg-white">
+<p class="text-center text-gray-400 text-sm mb-8 reveal">Click a role to learn more</p>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4" id="role-grid">
+  <a href="#role-chairperson" class="role-card border-2 border-gray-100 rounded-2xl p-5 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.05s;">
+    <div class="w-11 h-11 mb-3 rounded-lg bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/></svg>
     </div>
-    <h3 class="text-xl font-bold text-ss-blue mb-3">Toastmaster</h3>
-    <p class="text-sm text-gray-500 leading-relaxed">The Toastmaster is a meeting's director and host.</p>
-  </div>
-  <!-- Grammarian — book -->
-  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.1s;">
-    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
-      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>
+    <h3 class="text-sm font-bold text-ss-blue">Chairperson</h3>
+  </a>
+  <a href="#role-toastmaster" class="role-card border-2 border-gray-100 rounded-2xl p-5 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.08s;">
+    <div class="w-11 h-11 mb-3 rounded-lg bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"/></svg>
     </div>
-    <h3 class="text-xl font-bold text-ss-blue mb-3">Grammarian</h3>
-    <p class="text-sm text-gray-500 leading-relaxed">The Grammarian helps club members improve their grammar and vocabulary.</p>
-  </div>
-  <!-- Timer — clock -->
-  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.15s;">
-    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
-      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+    <h3 class="text-sm font-bold text-ss-blue">Toastmaster</h3>
+  </a>
+  <a href="#role-speaker" class="role-card border-2 border-gray-100 rounded-2xl p-5 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.11s;">
+    <div class="w-11 h-11 mb-3 rounded-lg bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"/></svg>
     </div>
-    <h3 class="text-xl font-bold text-ss-blue mb-3">Timer</h3>
-    <p class="text-sm text-gray-500 leading-relaxed">Taking on this role improves time management skills.</p>
-  </div>
-  <!-- Topicsmaster — lightning bolt (spontaneous) -->
-  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.2s;">
-    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
-      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/></svg>
+    <h3 class="text-sm font-bold text-ss-blue">Speaker</h3>
+  </a>
+  <a href="#role-evaluator" class="role-card border-2 border-gray-100 rounded-2xl p-5 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.14s;">
+    <div class="w-11 h-11 mb-3 rounded-lg bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15a2.25 2.25 0 0 1 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"/></svg>
     </div>
-    <h3 class="text-xl font-bold text-ss-blue mb-3">Topicsmaster</h3>
-    <p class="text-sm text-gray-500 leading-relaxed">Taking on this role improves organization skills, time management and facilitation skills.</p>
-  </div>
-  <!-- Evaluator — clipboard check -->
-  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.25s;">
-    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
-      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15a2.25 2.25 0 0 1 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"/></svg>
+    <h3 class="text-sm font-bold text-ss-blue">Evaluator</h3>
+  </a>
+  <a href="#role-topicsmaster" class="role-card border-2 border-gray-100 rounded-2xl p-5 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.17s;">
+    <div class="w-11 h-11 mb-3 rounded-lg bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/></svg>
     </div>
-    <h3 class="text-xl font-bold text-ss-blue mb-3">Evaluator</h3>
-    <p class="text-sm text-gray-500 leading-relaxed">Every speaker is a role model and club members learn from one another's speeches.</p>
-  </div>
-  <!-- Meeting Speaker — microphone -->
-  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.3s;">
-    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
-      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"/></svg>
+    <h3 class="text-sm font-bold text-ss-blue">Topicsmaster</h3>
+  </a>
+  <a href="#role-timer" class="role-card border-2 border-gray-100 rounded-2xl p-5 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.2s;">
+    <div class="w-11 h-11 mb-3 rounded-lg bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
     </div>
-    <h3 class="text-xl font-bold text-ss-blue mb-3">Meeting Speaker</h3>
-    <p class="text-sm text-gray-500 leading-relaxed">Every speaker is a role model and club members learn from one another's speeches.</p>
-  </div>
-  <!-- General Evaluator — eye (oversight) -->
-  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.35s;">
-    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
-      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+    <h3 class="text-sm font-bold text-ss-blue">Timer</h3>
+  </a>
+  <a href="#role-grammarian" class="role-card border-2 border-gray-100 rounded-2xl p-5 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.23s;">
+    <div class="w-11 h-11 mb-3 rounded-lg bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>
     </div>
-    <h3 class="text-xl font-bold text-ss-blue mb-3">General Evaluator</h3>
-    <p class="text-sm text-gray-500 leading-relaxed">The General Evaluator evaluates everything that takes place during the club meeting.</p>
-  </div>
-  <!-- Table Topics Speaker — chat bubbles -->
-  <div class="role-card border-2 border-gray-100 rounded-2xl p-8 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.4s;">
-    <div class="w-14 h-14 mb-6 rounded-xl bg-ss-gold/10 flex items-center justify-center">
-      <svg class="w-7 h-7 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/></svg>
+    <h3 class="text-sm font-bold text-ss-blue">Grammarian</h3>
+  </a>
+  <a href="#role-general-evaluator" class="role-card border-2 border-gray-100 rounded-2xl p-5 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.26s;">
+    <div class="w-11 h-11 mb-3 rounded-lg bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
     </div>
-    <h3 class="text-xl font-bold text-ss-blue mb-3">Table Topics Speaker</h3>
-    <p class="text-sm text-gray-500 leading-relaxed">Table Topics helps members develop their impromptu speaking skills.</p>
-  </div>
+    <h3 class="text-sm font-bold text-ss-blue leading-tight">General Evaluator</h3>
+  </a>
+  <a href="#role-wildcard" class="role-card border-2 border-gray-100 rounded-2xl p-5 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.29s;">
+    <div class="w-11 h-11 mb-3 rounded-lg bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z"/></svg>
+    </div>
+    <h3 class="text-sm font-bold text-ss-blue">Wildcard</h3>
+  </a>
+  <a href="#role-sergeant" class="role-card border-2 border-gray-100 rounded-2xl p-5 text-center flex flex-col items-center bg-white reveal" style="transition-delay: 0.32s;">
+    <div class="w-11 h-11 mb-3 rounded-lg bg-ss-gold/10 flex items-center justify-center">
+      <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.431.992a7.723 7.723 0 0 1 0 .255c-.007.378.138.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+    </div>
+    <h3 class="text-sm font-bold text-ss-blue leading-tight">Sergeant at Arms</h3>
+  </a>
 </div>
 </section>
 <!-- END: Roles Grid -->
+
+<!-- BEGIN: Role Details -->
+<section class="bg-ss-cream py-16 px-6">
+<div class="max-w-4xl mx-auto space-y-8">
+  <h2 class="text-3xl font-bold text-center text-gray-900 mb-4 reveal">Role Details</h2>
+  <div class="w-12 h-[3px] bg-ss-gold mx-auto rounded-full mb-10 reveal" style="transition-delay: 0.1s;"></div>
+
+  <!-- Chairperson -->
+  <div id="role-chairperson" class="role-detail role-detail-card bg-white rounded-2xl border border-gray-100 p-8 md:p-10 reveal">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-11 h-11 rounded-lg bg-ss-gold/10 flex items-center justify-center shrink-0 mt-1">
+        <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/></svg>
+      </div>
+      <h3 class="font-display text-2xl font-bold text-ss-blue">Chairperson</h3>
+    </div>
+    <p class="text-gray-600 leading-relaxed mb-4">One of the biggest and most important roles at any meeting. The Chairperson is responsible for setting the meeting's theme, creating the detailed schedule and timing, and coordinating with the VP Education to ensure all roles are filled.</p>
+    <p class="text-gray-600 leading-relaxed mb-4">Before the meeting, the Chairperson prepares the agenda, confirms participants, and sets up the room. During the meeting, they preside over the entire program, introduce each segment, manage transitions, and keep the meeting on track and on time.</p>
+    <p class="text-gray-500 text-sm italic">This role develops leadership, organizational, and facilitation skills.</p>
+  </div>
+
+  <!-- Toastmaster -->
+  <div id="role-toastmaster" class="role-detail role-detail-card bg-white rounded-2xl border border-gray-100 p-8 md:p-10 reveal">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-11 h-11 rounded-lg bg-ss-gold/10 flex items-center justify-center shrink-0 mt-1">
+        <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"/></svg>
+      </div>
+      <h3 class="font-display text-2xl font-bold text-ss-blue">Toastmaster</h3>
+    </div>
+    <p class="text-gray-600 leading-relaxed mb-4">The Toastmaster manages the formal speaking portion of the meeting. They deliver the thematic toast, introduce each speaker along with their speech title and objectives, and present evaluators after each speech.</p>
+    <p class="text-gray-600 leading-relaxed mb-4">The Toastmaster ensures smooth transitions between speakers, requests evaluators to share speaker objectives beforehand, and allocates a one-minute writing period for evaluations after each speech. They return control to the Chairperson once all speeches and evaluations are complete.</p>
+    <p class="text-gray-500 text-sm italic">This role develops hosting, public speaking, and time coordination skills.</p>
+  </div>
+
+  <!-- Meeting Speaker -->
+  <div id="role-speaker" class="role-detail role-detail-card bg-white rounded-2xl border border-gray-100 p-8 md:p-10 reveal">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-11 h-11 rounded-lg bg-ss-gold/10 flex items-center justify-center shrink-0 mt-1">
+        <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"/></svg>
+      </div>
+      <h3 class="font-display text-2xl font-bold text-ss-blue">Meeting Speaker</h3>
+    </div>
+    <p class="text-gray-600 leading-relaxed mb-4">Every speaker is a role model. As a member, you'll prepare, rehearse, and deliver presentations in front of your fellow members. Each speech is tied to specific objectives from the Toastmasters Pathways curriculum, helping you build skills progressively.</p>
+    <p class="text-gray-600 leading-relaxed mb-4">Speakers typically have 5&ndash;7 minutes for prepared speeches. After each speech, you'll receive a written and oral evaluation from a fellow member, giving you constructive feedback to grow.</p>
+    <p class="text-gray-500 text-sm italic">This is the core of Toastmasters &mdash; every speech builds confidence and communication skills.</p>
+  </div>
+
+  <!-- Evaluator -->
+  <div id="role-evaluator" class="role-detail role-detail-card bg-white rounded-2xl border border-gray-100 p-8 md:p-10 reveal">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-11 h-11 rounded-lg bg-ss-gold/10 flex items-center justify-center shrink-0 mt-1">
+        <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15a2.25 2.25 0 0 1 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"/></svg>
+      </div>
+      <h3 class="font-display text-2xl font-bold text-ss-blue">Evaluator</h3>
+    </div>
+    <p class="text-gray-600 leading-relaxed mb-4">Evaluations are integral to Toastmasters &mdash; it's through evaluations that we learn and grow. Each prepared speaker is paired with an evaluator who listens carefully, takes notes, and delivers a 2&ndash;3 minute oral evaluation highlighting strengths and offering suggestions for improvement.</p>
+    <p class="text-gray-600 leading-relaxed mb-4">Evaluators also provide written feedback. A good evaluation is encouraging, specific, and actionable &mdash; focusing on what the speaker did well and one or two areas to work on next time.</p>
+    <p class="text-gray-500 text-sm italic">This role sharpens critical listening, analytical thinking, and diplomatic communication skills.</p>
+  </div>
+
+  <!-- Table Topics / Topicsmaster -->
+  <div id="role-topicsmaster" class="role-detail role-detail-card bg-white rounded-2xl border border-gray-100 p-8 md:p-10 reveal">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-11 h-11 rounded-lg bg-ss-gold/10 flex items-center justify-center shrink-0 mt-1">
+        <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/></svg>
+      </div>
+      <h3 class="font-display text-2xl font-bold text-ss-blue">Topicsmaster</h3>
+    </div>
+    <p class="text-gray-600 leading-relaxed mb-4">The Topicsmaster runs the impromptu speaking portion of the meeting, known as Table Topics. They create engaging questions &mdash; often tied to the meeting's theme &mdash; and call on members to speak for 1&ndash;2 minutes without preparation.</p>
+    <p class="text-gray-600 leading-relaxed mb-4">When selecting speakers, the Topicsmaster prioritizes members who don't have other assigned roles that day. During breaks, they may approach guests to gauge their comfort level with participating. After all speakers have gone, the Topicsmaster tallies votes for the Best Table Topic award.</p>
+    <p class="text-gray-500 text-sm italic">This role develops facilitation, creativity, and quick-thinking skills.</p>
+  </div>
+
+  <!-- Timer -->
+  <div id="role-timer" class="role-detail role-detail-card bg-white rounded-2xl border border-gray-100 p-8 md:p-10 reveal">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-11 h-11 rounded-lg bg-ss-gold/10 flex items-center justify-center shrink-0 mt-1">
+        <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+      </div>
+      <h3 class="font-display text-2xl font-bold text-ss-blue">Timer</h3>
+    </div>
+    <p class="text-gray-600 leading-relaxed mb-4">The Timer tracks the duration of every timed segment using a traffic-light system of green, yellow, and red signals:</p>
+    <div class="bg-ss-cream rounded-xl p-5 mb-4">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+        <div><span class="font-bold text-ss-blue">Prepared Speeches</span><br/><span class="inline-block w-3 h-3 rounded-full bg-green-500 mr-1 align-middle"></span>5 min &nbsp;<span class="inline-block w-3 h-3 rounded-full bg-yellow-400 mr-1 align-middle"></span>6 min &nbsp;<span class="inline-block w-3 h-3 rounded-full bg-red-500 mr-1 align-middle"></span>7 min</div>
+        <div><span class="font-bold text-ss-blue">Evaluations</span><br/><span class="inline-block w-3 h-3 rounded-full bg-green-500 mr-1 align-middle"></span>2 min &nbsp;<span class="inline-block w-3 h-3 rounded-full bg-yellow-400 mr-1 align-middle"></span>2:30 &nbsp;<span class="inline-block w-3 h-3 rounded-full bg-red-500 mr-1 align-middle"></span>3 min</div>
+        <div><span class="font-bold text-ss-blue">Table Topics</span><br/><span class="inline-block w-3 h-3 rounded-full bg-green-500 mr-1 align-middle"></span>1 min &nbsp;<span class="inline-block w-3 h-3 rounded-full bg-yellow-400 mr-1 align-middle"></span>1:30 &nbsp;<span class="inline-block w-3 h-3 rounded-full bg-red-500 mr-1 align-middle"></span>2 min</div>
+      </div>
+    </div>
+    <p class="text-gray-600 leading-relaxed">The Timer provides a report at the end of the meeting summarizing each speaker's time. This role helps keep meetings punctual and teaches members to manage their time effectively when speaking.</p>
+  </div>
+
+  <!-- Grammarian -->
+  <div id="role-grammarian" class="role-detail role-detail-card bg-white rounded-2xl border border-gray-100 p-8 md:p-10 reveal">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-11 h-11 rounded-lg bg-ss-gold/10 flex items-center justify-center shrink-0 mt-1">
+        <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>
+      </div>
+      <h3 class="font-display text-2xl font-bold text-ss-blue">Grammarian</h3>
+    </div>
+    <p class="text-gray-600 leading-relaxed mb-4">The Grammarian wears two hats: language coach and filler-word tracker. At the start of the meeting, the Grammarian introduces a <strong>Word of the Day</strong> &mdash; a word relevant to the meeting's theme that members are encouraged to use throughout the meeting.</p>
+    <p class="text-gray-600 leading-relaxed mb-4">During the meeting, the Grammarian listens for noteworthy language &mdash; both memorable phrases and areas for improvement. They also count filler words (um, ah, er, like, so, you know) for each speaker.</p>
+    <p class="text-gray-600 leading-relaxed">At the end of the meeting, the Grammarian delivers a report highlighting strong language use, sharing the Word of the Day usage count, and reporting filler word tallies.</p>
+  </div>
+
+  <!-- General Evaluator -->
+  <div id="role-general-evaluator" class="role-detail role-detail-card bg-white rounded-2xl border border-gray-100 p-8 md:p-10 reveal">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-11 h-11 rounded-lg bg-ss-gold/10 flex items-center justify-center shrink-0 mt-1">
+        <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+      </div>
+      <h3 class="font-display text-2xl font-bold text-ss-blue">General Evaluator</h3>
+    </div>
+    <p class="text-gray-600 leading-relaxed mb-4">The General Evaluator is the "evaluator of everything" &mdash; they observe the entire meeting and provide feedback on anything and everything that happens (or doesn't happen). This includes punctuality, agenda accuracy, how well each role was performed, whether guests were greeted warmly, and the overall meeting flow.</p>
+    <p class="text-gray-600 leading-relaxed mb-4">Before the meeting, the General Evaluator coordinates with the Chairperson, Toastmaster, Topicsmaster, and Timer to understand the plan. Their closing report (kept to 5 minutes maximum) systematically addresses each role and offers constructive suggestions for improving future meetings.</p>
+    <p class="text-gray-500 text-sm italic">This is one of the most advanced roles, developing leadership assessment and coaching skills.</p>
+  </div>
+
+  <!-- Wildcard -->
+  <div id="role-wildcard" class="role-detail role-detail-card bg-white rounded-2xl border border-gray-100 p-8 md:p-10 reveal">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-11 h-11 rounded-lg bg-ss-gold/10 flex items-center justify-center shrink-0 mt-1">
+        <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z"/></svg>
+      </div>
+      <h3 class="font-display text-2xl font-bold text-ss-blue">Wildcard</h3>
+    </div>
+    <p class="text-gray-600 leading-relaxed mb-4">The Wildcard delivers a brief 2&ndash;3 minute segment of entertainment, motivation, or inspiration. This could be a joke, a humorous anecdote, an inspiring quote, or a fun fact &mdash; ideally aligned with the meeting's theme.</p>
+    <p class="text-gray-600 leading-relaxed">Content should be appropriate for all audiences. If sharing borrowed material, the Wildcard gives proper attribution. It's a great role for newer members to get comfortable in front of the group with a low-pressure speaking opportunity.</p>
+  </div>
+
+  <!-- Sergeant at Arms -->
+  <div id="role-sergeant" class="role-detail role-detail-card bg-white rounded-2xl border border-gray-100 p-8 md:p-10 reveal">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-11 h-11 rounded-lg bg-ss-gold/10 flex items-center justify-center shrink-0 mt-1">
+        <svg class="w-6 h-6 text-ss-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.431.992a7.723 7.723 0 0 1 0 .255c-.007.378.138.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+      </div>
+      <h3 class="font-display text-2xl font-bold text-ss-blue">Sergeant at Arms</h3>
+    </div>
+    <p class="text-gray-600 leading-relaxed mb-4">The Sergeant at Arms is responsible for all meeting logistics and hospitality. They arrive early to arrange the room, set up any equipment, prepare materials (timer cards, ballots, nametags), and ensure everything is ready before the meeting begins.</p>
+    <p class="text-gray-600 leading-relaxed mb-4">They formally open the meeting at 7:30 am sharp, welcome members and guests, and handle any announcements about the venue. They also manage club property and coordinate the social/reception aspects of the meeting.</p>
+    <p class="text-gray-500 text-sm italic">This role develops organizational, hospitality, and operational management skills.</p>
+  </div>
+
+</div>
+</section>
+<!-- END: Role Details -->
 
 <!-- BEGIN: CTA Section -->
 <section class="relative py-28 px-6 text-center text-white min-h-[400px] flex flex-col items-center justify-center overflow-hidden" style="background: linear-gradient(rgba(21, 39, 59, 0.88), rgba(11, 28, 43, 0.92)), url('images/cta-bg.jpg') center/cover no-repeat;">
