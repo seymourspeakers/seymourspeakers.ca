@@ -108,6 +108,24 @@ body { font-family: 'DM Sans', sans-serif; color: #333; }
   transform: translateY(0);
 }
 
+/* ── RSVP Modal ── */
+.rsvp-overlay {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.rsvp-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.rsvp-overlay .rsvp-panel {
+  transform: translateY(16px) scale(0.97);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.rsvp-overlay.open .rsvp-panel {
+  transform: translateY(0) scale(1);
+}
+
 /* ── Card hover refinements ── */
 .info-card {
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
@@ -175,9 +193,9 @@ body { font-family: 'DM Sans', sans-serif; color: #333; }
       <a class="hover:text-ss-blue transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-ss-gold after:transition-all after:duration-300 hover:after:w-full" href="first-meeting.html">First Meeting</a>
       <a class="hover:text-ss-blue transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-ss-gold after:transition-all after:duration-300 hover:after:w-full" href="roles.html">Roles</a>
     </nav>
-    <a class="btn-glow bg-ss-gold hover:bg-ss-gold-dark text-gray-900 font-semibold py-2 px-6 rounded-full text-sm shadow-sm" href="first-meeting.html">
+    <button class="btn-glow bg-ss-gold hover:bg-ss-gold-dark text-gray-900 font-semibold py-2 px-6 rounded-full text-sm shadow-sm cursor-pointer" onclick="openRsvpModal()">
       Join Us!
-    </a>
+    </button>
     <button class="md:hidden text-gray-700 hover:text-gray-900 focus:outline-none transition-colors" onclick="toggleMobileMenu()">
       <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
@@ -210,9 +228,9 @@ body { font-family: 'DM Sans', sans-serif; color: #333; }
   <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8 animate-fade-up" style="animation-delay: 0.2s;">
     Looking to brush up on your<br/>public speaking confidence?
   </h1>
-  <a class="btn-glow bg-ss-gold hover:bg-ss-gold-dark text-gray-900 font-bold py-3.5 px-10 rounded-md text-lg shadow-md inline-block mb-6 animate-fade-up" style="animation-delay: 0.4s;" href="first-meeting.html">
+  <button class="btn-glow bg-ss-gold hover:bg-ss-gold-dark text-gray-900 font-bold py-3.5 px-10 rounded-md text-lg shadow-md inline-block mb-6 animate-fade-up cursor-pointer" style="animation-delay: 0.4s;" onclick="openRsvpModal()">
     Try a Meeting!
-  </a>
+  </button>
   <p class="text-lg font-medium tracking-wide text-[#8fa8c8] animate-fade-up" style="animation-delay: 0.5s;">
     Join us at Seymour Speakers — high energy mornings that build confidence.
   </p>
@@ -317,10 +335,57 @@ body { font-family: 'DM Sans', sans-serif; color: #333; }
         Room 165, Vancouver Community College — Downtown<br/>
         250 W. Pender St., Vancouver
       </p>
-      <p class="text-xl font-bold text-gray-900 mb-8">Or join via Zoom.</p>
-      <a class="btn-glow bg-ss-gold hover:bg-ss-gold-dark text-gray-900 font-extrabold py-3.5 px-10 rounded-md shadow-sm inline-block" href="mailto:vancouvertoastmasters@gmail.com">
-        RSVP for Next Meeting!
-      </a>
+      <p class="text-xl font-bold text-gray-900 mb-6">Or join via Zoom.</p>
+
+      <!-- RSVP Form -->
+      <div id="rsvp" class="w-full">
+        <div data-fs-success class="bg-green-50 border border-green-200 rounded-lg p-6 text-center hidden">
+          <p class="text-green-800 font-bold text-lg mb-1">You're all set!</p>
+          <p class="text-green-700 text-sm">We'll send you the details before the next meeting.</p>
+        </div>
+        <div data-fs-error class="text-red-600 text-sm mb-3"></div>
+
+        <form id="rsvp-form" class="space-y-3">
+          <div>
+            <label for="rsvp-name" class="block text-sm font-semibold text-gray-700 mb-1">Name</label>
+            <input type="text" id="rsvp-name" name="name" required data-fs-field
+              class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-ss-gold focus:border-ss-gold transition"
+              placeholder="Your name" />
+            <span data-fs-error="name" class="text-red-600 text-xs mt-1"></span>
+          </div>
+
+          <div>
+            <label for="rsvp-email" class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
+            <input type="email" id="rsvp-email" name="email" required data-fs-field
+              class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-ss-gold focus:border-ss-gold transition"
+              placeholder="you@example.com" />
+            <span data-fs-error="email" class="text-red-600 text-xs mt-1"></span>
+          </div>
+
+          <fieldset>
+            <legend class="text-sm font-semibold text-gray-700 mb-2">How will you attend?</legend>
+            <div class="flex gap-6">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="attendance" value="In Person" checked data-fs-field
+                  class="w-4 h-4 text-ss-gold focus:ring-ss-gold border-gray-300" />
+                <span class="text-gray-700">In Person</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="attendance" value="Via Zoom" data-fs-field
+                  class="w-4 h-4 text-ss-gold focus:ring-ss-gold border-gray-300" />
+                <span class="text-gray-700">Via Zoom</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+
+          <button type="submit" data-fs-submit-btn
+            class="btn-glow w-full bg-ss-gold hover:bg-ss-gold-dark text-gray-900 font-extrabold py-3 px-10 rounded-md shadow-sm transition-colors">
+            RSVP for Next Meeting!
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 </div>
@@ -388,6 +453,85 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+<!-- BEGIN: RSVP Modal -->
+<div id="rsvp-overlay" class="rsvp-overlay fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="RSVP for next meeting">
+  <div class="absolute inset-0 bg-ss-dark-blue/70 backdrop-blur-sm" onclick="closeRsvpModal()"></div>
+  <div class="rsvp-panel relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
+    <button onclick="closeRsvpModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors" aria-label="Close">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <h3 class="font-display text-2xl font-bold text-ss-blue mb-1">RSVP for Next Meeting</h3>
+    <p class="text-gray-500 text-sm mb-6">2nd &amp; 4th Thursday, 7:30 AM — In Person or Zoom</p>
+
+    <div data-fs-success class="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
+      <p class="text-green-800 font-bold text-lg mb-1">You're all set!</p>
+      <p class="text-green-700 text-sm">We'll send you the details before the next meeting.</p>
+    </div>
+    <div data-fs-error class="text-red-600 text-sm mb-3"></div>
+
+    <form id="rsvp-modal-form" class="space-y-4">
+      <div>
+        <label for="modal-name" class="block text-sm font-semibold text-gray-700 mb-1">Name</label>
+        <input type="text" id="modal-name" name="name" required data-fs-field
+          class="w-full px-3 py-2.5 border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-ss-gold focus:border-ss-gold transition"
+          placeholder="Your name" />
+        <span data-fs-error="name" class="text-red-600 text-xs mt-1"></span>
+      </div>
+      <div>
+        <label for="modal-email" class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
+        <input type="email" id="modal-email" name="email" required data-fs-field
+          class="w-full px-3 py-2.5 border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-ss-gold focus:border-ss-gold transition"
+          placeholder="you@example.com" />
+        <span data-fs-error="email" class="text-red-600 text-xs mt-1"></span>
+      </div>
+      <fieldset>
+        <legend class="text-sm font-semibold text-gray-700 mb-2">How will you attend?</legend>
+        <div class="flex gap-6">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="attendance" value="In Person" checked data-fs-field
+              class="w-4 h-4 text-ss-gold focus:ring-ss-gold border-gray-300" />
+            <span class="text-gray-700">In Person</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="attendance" value="Via Zoom" data-fs-field
+              class="w-4 h-4 text-ss-gold focus:ring-ss-gold border-gray-300" />
+            <span class="text-gray-700">Via Zoom</span>
+          </label>
+        </div>
+      </fieldset>
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+      <button type="submit" data-fs-submit-btn
+        class="btn-glow w-full bg-ss-gold hover:bg-ss-gold-dark text-gray-900 font-extrabold py-3 px-10 rounded-md shadow-sm transition-colors">
+        RSVP for Next Meeting!
+      </button>
+    </form>
+  </div>
+</div>
+<!-- END: RSVP Modal -->
+
+<!-- Formspree AJAX -->
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#rsvp-form', formId: 'xpqojylo' });
+  formspree('initForm', { formElement: '#rsvp-modal-form', formId: 'xpqojylo' });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+<!-- Modal open/close -->
+<script>
+function openRsvpModal() {
+  document.getElementById('rsvp-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeRsvpModal() {
+  document.getElementById('rsvp-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeRsvpModal();
+});
 </script>
 </body>
 </html>
